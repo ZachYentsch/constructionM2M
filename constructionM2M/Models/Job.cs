@@ -8,10 +8,20 @@ namespace constructionM2M.Models
         public int CompanyId { get; set; }
     }
 
-    public class JobViewModel : Contractor
+    public class ContractorJobViewModel : Contractor
     {
         public int JobId { get; set; }
         public int CompanyId { get; set; }
         public int ContractorId { get; set; }
+        public string Location { get; set; }
+    }
+
+    public class CompanyJobViewModel : Company
+    {
+        public int JobId { get; set; }
+        public int CompanyId { get; set; }
+        public int ContractorId { get; set; }
+        public string Specialty { get; set; }
+
     }
 }
