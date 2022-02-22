@@ -1,30 +1,28 @@
+
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
 using constructionM2M.Models;
 using constructionM2M.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace constructionM2M.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
-    public class CompaniesController : ControllerBase
+    [Route("api/[Controller")]
+    public class ContractorsController : ControllerBase
     {
-        private readonly CompaniesService _coms;
-        public CompaniesController(CompaniesService coms)
+        private readonly ContractorsService _cons;
+        public ContractorsController(ContractorsService cons)
         {
-            _coms = coms;
+            _cons = cons;
         }
 
-        // ANCHOR GETALL
+        // ANCHOR GET ALL
         [HttpGet]
-        public ActionResult<List<Company>> getAll()
+        public ActionResult<List<Contractor>> getAll()
         {
             try
             {
-                return Ok(_coms.getAll());
+                return Ok(_cons.getAll());
             }
             catch (System.Exception e)
             {
@@ -32,13 +30,13 @@ namespace constructionM2M.Controllers
             }
         }
 
-        // ANCHOR GETBYID
+        // ANCHOR GET BY ID
         [HttpGet("{id}")]
-        public ActionResult<Company> getById(int id)
+        public ActionResult<Contractor> getById(int id)
         {
             try
             {
-                return Ok(_coms.getById(id));
+                return Ok(_cons.getById(id));
             }
             catch (System.Exception e)
             {
@@ -47,13 +45,12 @@ namespace constructionM2M.Controllers
         }
 
         // ANCHOR CREATE
-        [Authorize]
         [HttpPost]
-        public ActionResult<Company> create([FromBody] Company newCompany)
+        public ActionResult<Contractor> create([FromBody] Contractor newContractor)
         {
             try
             {
-                return Ok(_coms.create(newCompany));
+                return Ok(_cons.create(newContractor));
             }
             catch (System.Exception e)
             {
@@ -67,8 +64,22 @@ namespace constructionM2M.Controllers
         {
             try
             {
-                _coms.remove(id);
-                return Ok("Company Removed");
+                _cons.remove(id);
+                return Ok("Contractor Removed");
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        // ANCHOR EDIT
+        [HttpPut("{id}")]
+        public ActionResult<Contractor> edit([FromBody] Contractor updated, int id)
+        {
+            try
+            {
+                updated.Id = id;
+                return Ok(_cons.edit(updated));
             }
             catch (System.Exception e)
             {
@@ -76,22 +87,7 @@ namespace constructionM2M.Controllers
             }
         }
 
-        // ANCHOR EDIT
-        [Authorize]
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Company>> edit([FromBody] Company updated, int id)
-        {
-            try
-            {
-                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                updated.Id = id;
-                return Ok(_coms.edit(updated));
-            }
-            catch (System.Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+
 
     }
 }

@@ -7,6 +7,6 @@ namespace constructionM2M.Models
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public string Name { get; set; }
-        public string specialty { get; set; }
+        public string Specialty { get; set; }
     }
 }
